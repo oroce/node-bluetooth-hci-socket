@@ -5,6 +5,9 @@ branches:
 
 language: cpp
 
+services:
+  - docker
+    
 dist: trusty
 
 env:
