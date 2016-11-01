@@ -33,7 +33,8 @@ script:
 - "./node_modules/.bin/node-pre-gyp package"
 - cp /usr/bin/qemu-arm-static ./
 - docker build -t sandeepmistry/node-bluetooth-hci-socket:master ./
-- docker run --rm -i -t sandeepmistry/node-bluetooth-hci-socket:master /usr/bin/uname -a
+- docker run --rm -i -t multiarch/ubuntu-core:armhf-trusty /usr/bin/uname -a
+- docker run --rm -i -t multiarch/ubuntu-core:arm64-trusty /usr/bin/uname -a
 - echo $TRAVIS_TAG
 - >
     ([[ "$TRAVIS_TAG" =~ ^[0-9] ]] &&
