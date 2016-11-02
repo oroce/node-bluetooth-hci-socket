@@ -1,6 +1,6 @@
 branches:
   only:
-    - node-pre-gyp
+    - docker-arm-build
     - /^[0-9]/
 
 language: cpp
