@@ -18,22 +18,10 @@ before_install:
   - sudo apt-get install build-essential libudev-dev -y
   - sudo apt-get --yes --no-install-recommends install binfmt-support qemu-user-static
   - echo ':arm:M::\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff:/usr/bin/qemu-arm-static:' | sudo tee -a /proc/sys/fs/binfmt_misc/register
-  - export NVM_DIR=~/.nvm
-  - . $HOME/.nvm/nvm.sh
-  - nvm install $NODE_VERSION
-  - node --version
-  - npm --version
-
-install:
-- export PATH=./node_modules/.bin/:$PATH
-- npm install -g node-pre-gyp-github
 
 script:
-- false && npm install --build-from-source --node-gyp=$(which pangyp)
-- false && "./node_modules/.bin/node-pre-gyp package"
-- cp /usr/bin/qemu-arm-static ./
-- docker run --rm -i -t multiarch/ubuntu-core:armhf-trusty uname -a
-- docker run --rm -i -t multiarch/ubuntu-core:arm64-trusty uname -a
+- docker run -e "NODE_VERSION=$NODE_VERSION" --rm -i -v build.sh:/usr/bin/build -t multiarch/ubuntu-core:armhf-trusty /usr/bin/build
+- docker run -e "NODE_VERSION=$NODE_VERSION" --rm -i -v build.sh:/usr/bin/build -t multiarch/ubuntu-core:arm64-trusty /usr/bin/build
 - echo $TRAVIS_TAG
 - >
     ([[ "$TRAVIS_TAG" =~ ^[0-9] ]] &&
