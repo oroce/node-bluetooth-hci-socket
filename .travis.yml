@@ -12,9 +12,6 @@ dist: trusty
 
 env:
   matrix:
-  - NODE_VERSION="0.12"
-  - NODE_VERSION="4"
-  - NODE_VERSION="5"
   - NODE_VERSION="6"
 
 before_install:
@@ -32,12 +29,11 @@ install:
 - npm install -g node-pre-gyp-github
 
 script:
-- npm install --build-from-source --node-gyp=$(which pangyp)
-- "./node_modules/.bin/node-pre-gyp package"
+- false && npm install --build-from-source --node-gyp=$(which pangyp)
+- false && "./node_modules/.bin/node-pre-gyp package"
 - cp /usr/bin/qemu-arm-static ./
-- docker build -t sandeepmistry/node-bluetooth-hci-socket:master ./
-- docker run --rm -i -t multiarch/ubuntu-core:armhf-trusty /usr/bin/uname -a
-- docker run --rm -i -t multiarch/ubuntu-core:arm64-trusty /usr/bin/uname -a
+- docker run --rm -i -t multiarch/ubuntu-core:armhf-trusty uname -a
+- docker run --rm -i -t multiarch/ubuntu-core:arm64-trusty uname -a
 - echo $TRAVIS_TAG
 - >
     ([[ "$TRAVIS_TAG" =~ ^[0-9] ]] &&
